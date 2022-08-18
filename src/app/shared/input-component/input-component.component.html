@@ -1,0 +1,21 @@
+<div class="field">
+  <label>{{label}}</label>
+  <input [type]="inputType" [formControl]="control">
+  <div *ngIf="showErrors()" class="ui pointing red basic label">
+    <p *ngIf="control.errors['required']">
+      Value is required
+    </p>
+    <p *ngIf="control.errors['minlength']">
+      Value Entered must be greater than {{control.errors['minlength'].requiredLength}} Characters
+    </p>
+    <p *ngIf="control.errors['maxlength']">
+      Value Entered must be Less than {{control.errors['maxlength'].requiredLength}} Characters
+    </p>
+    <p *ngIf="control.errors['pattern']">
+      Value can only contain alphanumeric characters
+    </p>
+    <p *ngIf="control.errors['nonUniqueUsername']">
+      User Name Is Take Please Select Another
+    </p>
+  </div>
+</div>

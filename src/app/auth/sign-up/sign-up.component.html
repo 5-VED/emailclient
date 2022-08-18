@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <h3>Create an Account</h3>
+  <form class="ui form" [formGroup]="userForm">
+    <app-input-component inputType="text" label="Username"
+                         [control]="convertToFormControl(userForm.get('userName'))"></app-input-component>
+    <app-input-component inputType="password" label="Password"
+                         [control]="convertToFormControl(userForm.get('password'))"></app-input-component>
+    <app-input-component inputType="password" label="Password"
+                         [control]="convertToFormControl(userForm.get('confirmPassword'))"></app-input-component>
+
+    <div
+      *ngIf="convertToFormControl(userForm.get('password')).touched &&  convertToFormControl(userForm.get('confirmPassword')).touched && userForm.errors"
+      class="ui pointing red basic label">
+      <p *ngIf="userForm.errors['passwordDontMatch']">
+        Password Dont Match
+      </p>
+    </div>
+    <div>
+      <button class="ui button">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
