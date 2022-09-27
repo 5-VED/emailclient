@@ -68,7 +68,7 @@ export class AuthService {
     return this.http.post(`${this.rootUrl}/auth/signin`, credentials)
       .pipe(
         tap(() => {
-          this.isSignedIn$.next(true)
+          this.isSignedIn$.next(true);
         })
       )
   }
