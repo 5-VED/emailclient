@@ -1,18 +1,24 @@
 <div class="container-fluid">
   <h3>Create an Account</h3>
-  <form class="ui form" [formGroup]="userForm">
-    <app-input-component inputType="text" label="Username"
-                         [control]="convertToFormControl(userForm.get('userName'))"></app-input-component>
+  <form (ngSubmit)="onSubmit()" class="ui form" [formGroup]="userForm">
+    <app-input-component inputType="text" label="Username" [control]="convertToFormControl(userForm.get('username'))">
+    </app-input-component>
     <app-input-component inputType="password" label="Password"
-                         [control]="convertToFormControl(userForm.get('password'))"></app-input-component>
-    <app-input-component inputType="password" label="Password"
-                         [control]="convertToFormControl(userForm.get('confirmPassword'))"></app-input-component>
+      [control]="convertToFormControl(userForm.get('password'))"></app-input-component>
+    <app-input-component inputType="password" label="Confirm Password"
+      [control]="convertToFormControl(userForm.get('passwordConfirmation'))"></app-input-component>
 
     <div
-      *ngIf="convertToFormControl(userForm.get('password')).touched &&  convertToFormControl(userForm.get('confirmPassword')).touched && userForm.errors"
+      *ngIf="convertToFormControl(userForm.get('password')).touched &&  convertToFormControl(userForm.get('passwordConfirmation')).touched && userForm.errors"
       class="ui pointing red basic label">
       <p *ngIf="userForm.errors['passwordDontMatch']">
         Password Dont Match
+      </p>
+      <p *ngIf="userForm.errors['noConnection']">
+        Internet Connection Required
+      </p>
+      <p *ngIf="userForm.errors['unknownError']">
+        Unknown Error failed to signup
       </p>
     </div>
     <div>
@@ -22,6 +28,3 @@
     </div>
   </form>
 </div>
-
-
-

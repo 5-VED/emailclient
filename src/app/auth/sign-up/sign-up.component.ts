@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatchPassword} from "../validators/match-password";
-import {UniqueUsername} from "../validators/unique-username"
-
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatchPassword } from "../validators/match-password";
+import { UniqueUsername } from "../validators/unique-username"
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -12,12 +12,13 @@ import {UniqueUsername} from "../validators/unique-username"
 export class SignUpComponent implements OnInit {
 
   userForm: FormGroup;
-  userName: RegExp = /^[a-zA-Z0-9]+$/;
+  // username: RegExp = /^[a-zA-Z0-9]+$/;
 
   constructor(
     private formBuilder: FormBuilder,
-    private matchPassword: MatchPassword,
-    private uniqueUsername: UniqueUsername
+    public matchPassword: MatchPassword,
+    public uniqueUsername: UniqueUsername,
+    private authService: AuthService
   ) {
   }
 
@@ -27,10 +28,10 @@ export class SignUpComponent implements OnInit {
 
   createUserForm() {
     this.userForm = this.formBuilder.group({
-        userName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/), Validators.minLength(3), Validators.maxLength(40)], [this.uniqueUsername.validate]],
-        password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-      }, {validators: [this.matchPassword.validate]}
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/), Validators.minLength(3), Validators.maxLength(40)], [this.uniqueUsername.validate]],
+      password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      passwordConfirmation: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+    }, { validators: [this.matchPassword.validate] }
     )
     return this.userForm
   }
@@ -43,4 +44,19 @@ export class SignUpComponent implements OnInit {
     return absCtrl as FormControl;
   }
 
+  onSubmit() {
+    if (this.userForm.invalid) return;
+    this.authService.signUp(this.userForm.value).subscribe({
+      next: (data) => {
+        //Navigate to some other page        
+      },
+      error: (err) => {
+        if (!err.status) {          
+          this.userForm.setErrors({ noConnection: true });
+        }else{
+          this.userForm.setErrors({ unknownError: true });
+        }
+      }
+    });
+  }
 }

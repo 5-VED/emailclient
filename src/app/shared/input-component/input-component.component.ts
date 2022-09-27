@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: 'app-input-component',
@@ -11,8 +11,6 @@ export class InputComponentComponent implements OnInit {
   @Input() control: FormControl;
   @Input() inputType: any;
 
-  
-
   constructor() {
   }
 
@@ -20,7 +18,7 @@ export class InputComponentComponent implements OnInit {
   }
 
   showErrors() {
-    const {dirty, touched, errors} = this.control
+    const { dirty, touched, errors } = this.control
     return (dirty || touched) && errors
   }
 }

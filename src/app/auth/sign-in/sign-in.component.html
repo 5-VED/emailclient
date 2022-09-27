@@ -1,1 +1,19 @@
-<p>sign-in works!</p>
+<div class="container-fluid">
+    <h3>Sign In</h3>
+    <form class="ui form" (ngSubmit)="signIn()" [formGroup]="signInForm">
+        <app-input-component inputType="text" label="Username"
+            [control]="convertToFormControl(signInForm.get('username'))">
+        </app-input-component>
+        <app-input-component inputType="password" label="Password"
+            [control]="convertToFormControl(signInForm.get('password'))"></app-input-component>
+        <div>
+            <div *ngIf="signInForm.errors" class="ui red basic label">
+                <p *ngIf="signInForm.errors['credentials']">In Valid Credentials</p>
+            </div>
+        </div>
+        <button class="ui button" type="submit">Submit</button>
+    </form>
+    <div class="ui divider">
+        <p>Don't have an account ?<span><a routerLink=""> Sign Up Instead</a></span></p>
+    </div>
+</div>
